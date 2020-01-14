@@ -1,5 +1,6 @@
 /**
  * BOJ 1157
+ * Print most frequently shown character in a given word.
  */
 
 #include <stdio.h>
