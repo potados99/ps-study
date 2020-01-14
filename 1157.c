@@ -19,15 +19,16 @@
 #define ASCII_CHAR_UPPER(ch) (ch & ~(1 << 5))
 
 char word[1000000];
-void most_frequent_char(char *string);
+char most_frequent_char(char *string);
 
 int main(int argc, char *argv[]) {
 	fread(word, 1, 1000000, stdin);
-	most_frequent_char(word);
+	printf("%c\n", most_frequent_char(word));
+	
 	return 0;
 }
 
-void most_frequent_char(char *string) {
+char most_frequent_char(char *string) {
 	size_t counts[26] = {0,};
 	size_t string_len = strlen(string);
 	
@@ -52,11 +53,5 @@ void most_frequent_char(char *string) {
 		}
 	}
 
-	// If most frequent character is shown for over than once,
-	// print '?'.
-	if (most_frequent == duplicated) {
-		printf("?\n");
-	} else {
-		printf("%c\n", most_frequent);
-	}
+	return (most_frequent == duplicated) ? '?' : most_frequent;
 }
