@@ -49,6 +49,7 @@ int get_closest_sum_of_3(int numc, int *numv, int designated) {
 	int ni;
 	int nj;
 	int nk;
+	int result = 0;
 
 	// 3 to go.
 	for (int i = 0; i < numc; ++i) {
@@ -63,13 +64,12 @@ int get_closest_sum_of_3(int numc, int *numv, int designated) {
 				// Pick 3rd.
 				nk = numv[k];
 				if (ni + nj + nk > designated) continue;
-				// Ya here!
-				return ni + nj + nk;
+				// There could be multiple values.
+				// We choose the max one.
+				if (ni + nj + nk > result) result = ni + nj + nk;
 			} /* end of for k */
 		} /* end of for j */
 	} /* end of for i */
 
-	// Every possible sum of three cards
-	// exceeds the designated sum: wrong input.
-	return -1;
+	return result;
 }

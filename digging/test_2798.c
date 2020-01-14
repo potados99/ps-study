@@ -48,7 +48,7 @@ int main(int argc, char *argv[]) {
 	// Error spotted!
 	printf("\n=================== ERROR CASE BEGIN ===================\n");
 
-	printf("Wrong answer detected:");
+	printf("Wrong answer detected: should be %d but actually %d.\n", result_right, result_left);
 
 	printf("N = %d, M = %d\n", n_cards, dealer_number);
 	for (int i = 0; i < n_cards; ++i) {
@@ -79,6 +79,7 @@ int get_closest_sum_of_3(int numc, int *numv, int designated) {
 	int ni;
 	int nj;
 	int nk;
+	int result = 0;
 
 	// 3 to go.
 	for (int i = 0; i < numc; ++i) {
@@ -93,15 +94,14 @@ int get_closest_sum_of_3(int numc, int *numv, int designated) {
 				// Pick 3rd.
 				nk = numv[k];
 				if (ni + nj + nk > designated) continue;
-				// Ya here!
-				return ni + nj + nk;
+				// There could be multiple values.
+				// We choose the max one.
+				if (ni + nj + nk > result) result = ni + nj + nk;
 			} /* end of for k */
 		} /* end of for j */
 	} /* end of for i */
 
-	// Every possible sum of three cards
-	// exceeds the designated sum: wrong input.
-	return -1;
+	return result;
 }
 
 int get_closest_sum_of_3_alt(int numc, int *numv, int designated) {
