@@ -11,7 +11,7 @@
 
 int main(int argc, char *argv[]) {
 	int 		num;
-	uint32_t 	checked;
+	uint32_t 	checked = 0;
 	
 	for (int i = 0; i < 28; ++i) {
 		scanf("%d", &num);
