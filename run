@@ -2,8 +2,6 @@
 
 # Run single source C application.
 
-CC="gcc"
-CFLAGS="-Wall"
 EXECUTABLE="KILL_ME_IF_YOU_SEE_ME"
 
 function usage() {
@@ -16,5 +14,17 @@ if [ $# -lt 1 ]; then
 fi
 
 filename=$1
+ext=$filename:t:e
 
-$CC $CFLAGS $filename -o $EXECUTABLE && ./$EXECUTABLE && rm -f ./$EXECUTABLE
+if [ $ext = "c" ]; then
+	CC="gcc"
+	FLAGS="-Wall"
+elif [ $ext = "cpp" ]; then
+	CC="g++"
+	FLAGS="-Wall -std=c++14"
+fi
+
+cmd="$CC $FLAGS $filename -o $EXECUTABLE && ./$EXECUTABLE && rm -f ./$EXECUTABLE"
+
+echo $cmd
+eval $cmd
