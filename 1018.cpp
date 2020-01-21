@@ -1,3 +1,8 @@
+/**
+ * BOJ 1018
+ * Paint chessboard.
+ */
+
 #include <iostream>
 #include <cstdint>
 

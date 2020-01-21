@@ -1,3 +1,8 @@
+/**
+ * BOJ 10448
+ * Can the given number be presented with three Triangle numbers?
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 
