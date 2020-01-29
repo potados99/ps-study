@@ -1,0 +1,25 @@
+#!/bin/zsh
+
+function random10() {
+	for i in $(seq 10); do
+		echo -n $(shuf -i 1-5 -n 1);
+		echo -n ' '
+	done
+	echo ''
+}
+
+
+while true; do
+	input=$(random10)
+	echo "Tesing: $input"
+
+	correct=$(echo $input | ./right)
+	notgood=$(echo $input | ./wrong)
+
+	if [ "$correct" != "$notgood" ]; then
+		message="Mismatch at $input: expected $correct, got $notgood."
+		echo $message
+		echo $message >> test_result.txt
+	fi
+done
+
