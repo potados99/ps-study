@@ -130,10 +130,13 @@ int how_many_are_there(context *c, node *here) {
     return count;
 }
 
-void move(context *c, int player_index, int how_many) {
-    if (how_many < 1) return;
-    if (c->players[player_index]->finished) return;
-    if (c->players[player_index]->current == nullptr) return;
+/**
+ * return: keep of not
+ */
+bool move(context *c, int player_index, int how_many) {
+    if (how_many < 1) return true;
+    if (c->players[player_index]->finished) return true;
+    if (c->players[player_index]->current == nullptr) return true;
     
     player *p = c->players[player_index];
     node *cursor = p->current;
@@ -150,13 +153,15 @@ void move(context *c, int player_index, int how_many) {
     if (cursor == nullptr) {
         p->current = nullptr;
         p->finished = true;
-        return;
+        return true;
     }
-        
-    bool valid = (how_many_are_there(c, cursor) < 1);
     
-    p->score += valid ? cursor->num : 0;
-    p->current = valid ? cursor : p->current;
+    if (how_many_are_there(c, cursor) > 0) return false;
+    
+    p->score += cursor->num;
+    p->current = cursor;
+
+    return true;
 }
 
 void reset(context *c) {
@@ -171,12 +176,11 @@ int get_score(context *c, int player_index) {
     return c->players[player_index]->score;
 }
 
-int get_max_score(context *c) {
+int get_score_sum(context *c) {
     int score = 0;
     
-    for (int i = 0; i < 4; ++i) {
+    for (int i = 0; i < 4; ++i)
         score += get_score(c, i);
-    }
     
     return score;
 }
@@ -194,20 +198,19 @@ void dfs(int count, int *selected, callback on_pick, context *c) {
 }
 
 void for_each_permutation(callback on_pick, context *c) {
-    int s[10];
-
-    dfs(0, s, on_pick, c);
+    dfs(0, new int[10] {0, }, on_pick, c);
 }
 
 void do_on_pick(context *c, int *selected) {
-    for (int i = 0; i < 10; ++i) {
-        move(c, selected[i], nums[i]);
-    }
+    for (int i = 0; i < 10; ++i)
+        if (!move(c, selected[i], nums[i])) {
+            reset(c);
+            return;
+        }
     
-    int local_max = get_max_score(c);
-    if (local_max > max) {
+    int local_max = get_score_sum(c);
+    if (local_max > max)
         max = local_max;
-    }
     
     reset(c);
 }
@@ -215,9 +218,8 @@ void do_on_pick(context *c, int *selected) {
 int main(int argc, const char *argv[]) {
     context *c = init();
 
-    for (int i = 0; i < 10; ++i) {
+    for (int i = 0; i < 10; ++i)
         std::cin >> nums[i];
-    }
     
     for_each_permutation(do_on_pick, c);
 
@@ -225,5 +227,4 @@ int main(int argc, const char *argv[]) {
     
     return 0;
 }
-
 
