@@ -1,5 +1,5 @@
 /**
- * BOJ 17825
+ : BOJ 17825
  * FUCKING DICE
  */
 
@@ -24,7 +24,7 @@ typedef struct _map {
 } map;
 
 typedef struct _player {
-    struct _node    *current; /* never be null. */
+    struct _node    *current;
     int             score;
     bool            finished;
 } player;
