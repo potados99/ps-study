@@ -48,6 +48,9 @@ void dump(int buffer[][POTATO]) {
 }
 
 void update_map(int req_burger, int req_potato) {
+    // no need to update.
+    if (req_potato > burger || req_potato > potato) return;
+    
     for (int row = 1; row <= burger; ++row) {
         for (int col = 1; col <= potato; ++col) {
             // We are going to mark map[row+req_burger][col+req_potato]
